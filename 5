@@ -1,0 +1,131 @@
+public class Program
+{
+    public static void Main(string[] args)
+    {
+        List<string> FIO = new List<string>();
+
+        while (true)
+        {
+            Console.WriteLine("\nВыберите операцию:");
+            Console.WriteLine("1. Добавить ФИО");
+            Console.WriteLine("2. Разложить ФИО");
+            Console.WriteLine("3. Отсортировать фамилии");
+            Console.WriteLine("4. Изменить ФИО");
+            Console.WriteLine("5. Показать все ФИО");
+            Console.WriteLine("6. Удалить ФИО");
+            Console.WriteLine("7. Выйти");
+
+            string vibor = Console.ReadLine();
+
+            switch (vibor)
+            {
+                case "1":
+                    dobavlenie(FIO);
+                    break;
+                case "2":
+                    dostatfio(FIO);
+                    break;
+                case "3":
+                    sortfamilia(FIO);
+                    break;
+                case "4":
+                    izmenitfio(FIO);
+                    break;
+                case "5":
+                    vivodfio(FIO);
+                    break;
+                case "6":
+                    udalitfio(FIO);
+                    break;
+                case "7":
+                    return;
+                default:
+                    Console.WriteLine("Неверный выбор.");
+                    break;
+            }
+        }
+    }
+
+
+    static void dobavlenie(List<string> FIO)
+    {
+        Console.WriteLine("Введите ФИО:");
+        FIO.Add(Console.ReadLine());
+    }
+
+    static void dostatfio(List<string> FIO)
+    {
+        Console.WriteLine("Введите: 1 - фамилия, 2 - имя, 3 - отчество.");
+        string vibor = Console.ReadLine();
+
+        string[] part = FIO[0].Split(' ');
+        if (part.Length < 3)
+        {
+            Console.WriteLine("Некорректный формат ФИО");
+            return;
+        }
+
+        switch (vibor)
+        {
+            case "1": Console.WriteLine("Фамилия: " + part[0]); break;
+            case "2": Console.WriteLine("Имя: " + part[1]); break;
+            case "3": Console.WriteLine("Отчество: " + part[2]); break;
+            default: Console.WriteLine("Неверный выбор."); break;
+        }
+    }
+
+    static void sortfamilia(List<string> Familia)
+    {
+        string[] part = Familia[0].Split(' ');
+        if (part.Length < 1)
+        {
+            Console.WriteLine("Ошибка");
+            return;
+        }
+        string familia = part[0];
+        Console.WriteLine("По возрастанию: " + string.Join("", familia.OrderBy(c => c)));
+        Console.WriteLine("По убыванию: " + string.Join("", familia.OrderByDescending(c => c)));
+    }
+
+    static void izmenitfio(List<string> FIO)
+    {
+        vivodfio(FIO);
+        Console.WriteLine("Номер ФИО:");
+        if (int.TryParse(Console.ReadLine(), out int index) && index > 0 && index <= FIO.Count)
+        {
+            Console.WriteLine("Введите новое ФИО:");
+            FIO[index - 1] = Console.ReadLine();
+        }
+        else
+        {
+            Console.WriteLine("Неправернный ввод.");
+        }
+    }
+
+    static void vivodfio(List<string> FIO)
+    {
+        if (FIO.Count == 0)
+        {
+            Console.WriteLine("Список ФИО пуст.");
+            return;
+        }
+        for (int i = 0; i < FIO.Count; i++)
+        {
+            Console.WriteLine($"{i + 1}. {FIO[i]}");
+        }
+    }
+
+    static void udalitfio(List<string> FIO)
+    {
+        vivodfio(FIO);
+        Console.WriteLine("Введите номер записи для удаления:");
+        if (int.TryParse(Console.ReadLine(), out int index) && index > 0 && index <= FIO.Count)
+        {
+            FIO.RemoveAt(index - 1);
+        }
+        else
+        {
+            Console.WriteLine("Неверный номер записи.");
+        }
+    }
+}
